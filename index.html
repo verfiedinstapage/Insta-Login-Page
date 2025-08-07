@@ -36,7 +36,7 @@
       background: var(--box-bg);
       border: 1px solid var(--border-color);
       padding: 40px 20px;
-      width: 100%;
+      width: 90%;
       max-width: 350px;
       text-align: center;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -51,16 +51,18 @@
       font-size: 0.8em;
       color: #999;
       margin-bottom: 10px;
+      word-break: break-all;
     }
     input, button {
-      width: 100%;
+      width: calc(100% - 2px);
       padding: 12px;
       margin: 10px 0;
       border: 1px solid var(--border-color);
       border-radius: 4px;
       font-size: 16px;
-      background: transparent;
+      background: var(--box-bg);
       color: var(--text-color);
+      box-sizing: border-box;
     }
     button {
       background: #3897f0;
@@ -71,6 +73,12 @@
     img {
       width: 175px;
       margin-bottom: 20px;
+      filter: brightness(0) invert(0); /* ensure visible in dark mode */
+    }
+    @media (prefers-color-scheme: dark) {
+      img {
+        filter: brightness(0) invert(1);
+      }
     }
     .toggle-password {
       text-align: right;
